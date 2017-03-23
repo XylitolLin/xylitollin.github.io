@@ -84,15 +84,28 @@
 
 
 
-<meta name="description" content="El Psy Congroo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="xylitol's blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="前言闲着无事，开一个坑记录一下 React 的小组件开发过程。这次我们选择来用 React.js 来实现某东商城的商品图放大功能。⬆️我们要实现的效果⬆️(本来要录个 GIF 的，没想到打开了录制软件就触发不了 mousemove 的事件…)
+开发准备
+React.js 和支持 es6 的开发环境（强烈推荐 create-react-app）。
+一大一小的图片各一张 大图(800*800) 小图(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React.js 实现 image zoom 功能 part 1">
+<meta property="og:url" content="http://yoursite.com/2017/03/23/React-js-实现-image-zoom-功能-part-1/index.html">
 <meta property="og:site_name" content="xylitol's blog">
-<meta property="og:description" content="El Psy Congroo">
+<meta property="og:description" content="前言闲着无事，开一个坑记录一下 React 的小组件开发过程。这次我们选择来用 React.js 来实现某东商城的商品图放大功能。⬆️我们要实现的效果⬆️(本来要录个 GIF 的，没想到打开了录制软件就触发不了 mousemove 的事件…)
+开发准备
+React.js 和支持 es6 的开发环境（强烈推荐 create-react-app）。
+一大一小的图片各一张 大图(800*800) 小图(">
+<meta property="og:image" content="http://7xs02u.com1.z0.glb.clouddn.com/1A1CD0D5-0715-4F06-97AD-EE08D0EB59B7.png">
+<meta property="og:image" content="http://7xs02u.com1.z0.glb.clouddn.com/demo.png">
+<meta property="og:updated_time" content="2017-03-23T03:37:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xylitol's blog">
-<meta name="twitter:description" content="El Psy Congroo">
+<meta name="twitter:title" content="React.js 实现 image zoom 功能 part 1">
+<meta name="twitter:description" content="前言闲着无事，开一个坑记录一下 React 的小组件开发过程。这次我们选择来用 React.js 来实现某东商城的商品图放大功能。⬆️我们要实现的效果⬆️(本来要录个 GIF 的，没想到打开了录制软件就触发不了 mousemove 的事件…)
+开发准备
+React.js 和支持 es6 的开发环境（强烈推荐 create-react-app）。
+一大一小的图片各一张 大图(800*800) 小图(">
+<meta name="twitter:image" content="http://7xs02u.com1.z0.glb.clouddn.com/1A1CD0D5-0715-4F06-97AD-EE08D0EB59B7.png">
 
 
 
@@ -113,9 +126,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/23/React-js-实现-image-zoom-功能-part-1/"/>
 
-  <title> xylitol's blog </title>
+  <title> React.js 实现 image zoom 功能 part 1 | xylitol's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -136,9 +149,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -205,9 +216,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -227,10 +238,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/23/React-js-实现-image-zoom-功能-part-1/" itemprop="url">
-                  React.js 实现 image zoom 功能 part 1
-                </a>
+                React.js 实现 image zoom 功能 part 1
               
             
           </h1>
@@ -270,9 +278,7 @@
       
 
       
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>闲着无事，开一个坑记录一下 React 的小组件开发过程。这次我们选择来用 React.js 来实现某东商城的商品图放大功能。<br><img src="http://7xs02u.com1.z0.glb.clouddn.com/1A1CD0D5-0715-4F06-97AD-EE08D0EB59B7.png" alt="目标效果图"><br>⬆️我们要实现的效果⬆️<br>(本来要录个 GIF 的，没想到打开了录制软件就触发不了 mousemove 的事件…)</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>闲着无事，开一个坑记录一下 React 的小组件开发过程。这次我们选择来用 React.js 来实现某东商城的商品图放大功能。<br><img src="http://7xs02u.com1.z0.glb.clouddn.com/1A1CD0D5-0715-4F06-97AD-EE08D0EB59B7.png" alt="目标效果图"><br>⬆️我们要实现的效果⬆️<br>(本来要录个 GIF 的，没想到打开了录制软件就触发不了 mousemove 的事件…)</p>
 <h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><ol>
 <li>React.js 和支持 es6 的开发环境（强烈推荐 create-react-app）。</li>
 <li>一大一小的图片各一张 <a href="http://7xs02u.com1.z0.glb.clouddn.com/large-pic.jpg" target="_blank" rel="external">大图(800*800)</a> <a href="http://7xs02u.com1.z0.glb.clouddn.com/small-pic.jpg" target="_blank" rel="external">小图(450*450)</a>。</li>
@@ -300,16 +306,20 @@
 <li>有 React 组件开发经验的朋友应该看出了，其实我们可以把上面的组件写成 <code>stateless component</code> 这样代码就可以更简洁了。</li>
 </ol>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -317,252 +327,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/21/Blackberry10-cordova-真机调试/" rel="next" title="Blackberry10 cordova 真机调试">
+                <i class="fa fa-chevron-left"></i> Blackberry10 cordova 真机调试
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/03/21/Blackberry10-cordova-真机调试/" itemprop="url">
-                  Blackberry10 cordova 真机调试
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-21T22:13:30+08:00" content="2017-03-21">
-              2017-03-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>刚好入手了一台 blackberry passport，作为一位什么都折腾一番的男人，我觉得为这台手机开发几个 APP。因为主职是前端，cordova 在 iOS 和 android 也开发过。所以选用 cordova 为开发平台了。</p>
-<h2 id="环境准备-windows-7"><a href="#环境准备-windows-7" class="headerlink" title="环境准备(windows 7)"></a>环境准备(windows 7)</h2><ol>
-<li>安装 cordova <a href="https://cordova.apache.org/" target="_blank" rel="external">官方安装教程</a></li>
-<li>安装 blackberry10 WebWorks 2.2 <a href="https://developer.blackberry.com/html5/download/" target="_blank" rel="external">官方安装教程</a></li>
-<li>安装 blackberry link <a href="http://us.blackberry.com/software/desktop/blackberry-link" target="_blank" rel="external">官方下载地址</a></li>
-</ol>
-<p>考虑到 WebWorks 已经很久没有人维护了，自带的 cordova 也比较旧。之后我们的开发是不会通过 WebWorks 进行的。安装 WebWorks 主要是为了 <code>bb-tools</code> 这个文件夹里面的开发工具，这是进行开发和真机调试必备工具。</p>
-<p><em>这里需要把 bb-tools 这个文件夹的路径添加到系统的环境变量 PATH 才能方便我们使用。</em></p>
-<p>⚠️WebWorks 需要依赖 java 6</p>
-<h2 id="真机调试"><a href="#真机调试" class="headerlink" title="真机调试"></a>真机调试</h2><p>由于篇幅问题，这次重点记录真机调试的准备工作和很多官方文档没有提及的坑。上述的所需软件安装教程不赘述。</p>
-<h3 id="获取-signing-key"><a href="#获取-signing-key" class="headerlink" title="获取 signing key"></a>获取 signing key</h3><p>进入 <a href="https://www.blackberry.com/SignedKeys/codesigning.html" target="_blank" rel="external">BlackBerry Keys Order Form</a> </p>
-<p><img src="http://7xs02u.com1.z0.glb.clouddn.com/FireShot%20Capture%2047%20-%20BlackBerry%20Code%20Sign_%20-%20https___www.blackberry.com_SignedKeys_codesigning.html.png" alt="signing key shot"></p>
-<p>按需选择，这里我们选择第一个。然后经过一系列 next 、填写密码的操作，最后我们会得到一个 csk 文件。有效期为一年，并且告诉我们要放到对应的文件夹。那么，没有安装 native sdk 的我们其实是没有这几个文件夹的，我们也不需要，保存在任意文件就可以了。</p>
-<p><img src="http://7xs02u.com1.z0.glb.clouddn.com/3D8C4F76-BB3C-4BA2-B2A2-894BD0277767.png" alt="csk detail"><br><img src="http://7xs02u.com1.z0.glb.clouddn.com/EB094869-313B-41F1-B1A6-CAA3493DF925.png" alt="csk flie"></p>
-<h3 id="生成-debug-token-bar"><a href="#生成-debug-token-bar" class="headerlink" title="生成 debug token (*.bar)"></a>生成 debug token (*.bar)</h3><ol>
-<li>在 cmd 中进入保存了 csk 的文件夹。</li>
-<li>执行 <code>blackberry-signer -csksetup -cskpass (your password)</code> 这里的 password 是在上一步获取 signing key 填的 password。</li>
-<li>执行 <code>blackberry-keytool -genkeypair -keystore (output file name) -storepass &lt;password&gt; -author (Your Name)</code> 成功后，我们会获得一个 .p12 的文件。</li>
-<li><p>执行 <code>blackberry-debugtokenrequest -cskpass (your password) -keystore (your keystore file)
--storepass (another password) -deviceId 0x(your device PIN) (output file name)</code> 成功后，会生成一个 .bar 的文件，这个就是我们需要的 debug token。</p>
-<p>todos: 列出更详细的步骤…</p>
-</li>
-</ol>
-<h3 id="将-debug-token-文件导入手机"><a href="#将-debug-token-文件导入手机" class="headerlink" title="将 debug token 文件导入手机"></a>将 debug token 文件导入手机</h3><p>⚠️确保你的手机开启了开发模式</p>
-<p>回到保存有 debug token 文件的文件夹下，执行:<br><code>blackberry-deploy -installDebugToken (your debug token) -device (IP address) -password (device password)</code><br>成功后，会在手机的开发调试的页面显示调试令牌的相关信息。</p>
-<h3 id="首次开发"><a href="#首次开发" class="headerlink" title="首次开发"></a>首次开发</h3><p>按照 <a href="http://cordova.apache.org/docs/en/latest/guide/platforms/blackberry10/index.html" target="_blank" rel="external">官方教程</a> 一步步进行即可。</p>
-<p><img src="http://7xs02u.com1.z0.glb.clouddn.com/FireShot%20Capture%2048%20-%20BlackBerry%2010%20Platform%20Guide%20-%20Apache%20_%20-%20http___cordova.apache.org_docs_en_.png" alt=""></p>
-<p><img src="http://7xs02u.com1.z0.glb.clouddn.com/FireShot%20Capture%2049%20-%20BlackBerry%2010%20Platform%20Guide%20-%20Apache%20_%20-%20http___cordova.apache.org_docs_en_.png" alt=""></p>
-<p>这里我们重点关注执行了 <code>cordova run blackberry10</code> 之后的问题：</p>
-<ol>
-<li><p>Q：blackberry-nativepackager not found </p>
-<p>A: 将 bb-tools 这个文件件的路径添加到系统环境变量</p>
-</li>
-<li><p>Q：failure 881 application author does not match debug token author</p>
-<p>A: 将 debug token 复制一份保存并改名 C:\Users.cordova\blackberry10debugtoken.bar</p>
-</li>
-</ol>
-<p>refs:<br><a href="http://www.joshuagranick.com/2012/04/24/how-to-create-a-keystore-for-blackberry/" target="_blank" rel="external">how-to-create-a-keystore-for-blackberry</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/20/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-20T23:30:44+08:00" content="2016-09-20">
-              2016-09-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -570,6 +360,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -589,8 +383,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -626,6 +429,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发准备"><span class="nav-number">2.</span> <span class="nav-text">开发准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发"><span class="nav-number">3.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写一个最基础的-React-component"><span class="nav-number">3.1.</span> <span class="nav-text">写一个最基础的 React component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加上需要用到的元素"><span class="nav-number">3.2.</span> <span class="nav-text">添加上需要用到的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为元素加上事件"><span class="nav-number">3.3.</span> <span class="nav-text">为元素加上事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zoom-window"><span class="nav-number">3.4.</span> <span class="nav-text">zoom window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预告"><span class="nav-number">3.5.</span> <span class="nav-text">预告</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -729,6 +543,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
