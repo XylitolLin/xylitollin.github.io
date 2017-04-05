@@ -228,6 +228,124 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/05/React-js-和-Promise-实现-image-pending/" itemprop="url">
+                  React.js 和 Promise 实现 image pending
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-04-05T17:19:44+08:00" content="2017-04-05">
+              2017-04-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><img src="http://7xs02u.com1.z0.glb.clouddn.com/ImgPreload.gif" alt=""></p>
+<p>先说一下实现目标：</p>
+<ol>
+<li>图片加载完成前，需要一个 spinner 告知用户图片正在加载。</li>
+<li>图片加载完成后，移除 spinner，如果加载成功则显示图片，如果加载失败则提示。</li>
+</ol>
+<p>所涉及知识：</p>
+<ol>
+<li>React.js</li>
+<li><code>Image()</code> <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image" target="_blank" rel="external">MDN Image() 文档</a></li>
+<li><code>Promise</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="external">MDN Promise 文档</a></li>
+</ol>
+<h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><ol>
+<li>React.js 和支持 es6 的开发环境（强烈推荐 create-react-app）。</li>
+<li>图片一张 <a href="http://7xs02u.com1.z0.glb.clouddn.com/small-pic.jpg" target="_blank" rel="external">小图(450*450)</a>。</li>
+</ol>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="写一个最基础的-React-component"><a href="#写一个最基础的-React-component" class="headerlink" title="写一个最基础的 React component"></a>写一个最基础的 React component</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ImgPending.js</span></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImgPending</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	render() &#123;</div><div class="line">		<span class="keyword">const</span> &#123; src, width, height &#125; = <span class="keyword">this</span>.props</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			&lt;div style=&#123;&#123; width, height, border: '1px solid #EEE', position: 'relative' &#125;&#125;&gt;</div><div class="line">				&lt;div ref=&#123;(imgContent) =&gt; this.imgContent = imgContent&#125;&gt;&lt;/div&gt;</div><div class="line">				&lt;div</div><div class="line">					ref=&#123;(spinner) =&gt; this.spinner = spinner&#125;</div><div class="line">					style=&#123;&#123; position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' &#125;&#125;&gt;</div><div class="line">					&lt;div className='spinner'&gt;</div><div class="line">						&lt;div className='bounce1'&gt;&lt;/div&gt;</div><div class="line">						&lt;div className='bounce2'&gt;&lt;/div&gt;</div><div class="line">						&lt;div className='bounce3'&gt;&lt;/div&gt;</div><div class="line">					&lt;/div&gt;</div><div class="line">				&lt;/div&gt;</div><div class="line">			&lt;/div&gt;</div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ImgPending</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.spinner</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-class">.spinner</span> &gt; <span class="selector-tag">div</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">30px</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">30px</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#67CF22</span>;</div><div class="line"> </div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">-webkit-animation</span>: bouncedelay <span class="number">1.4s</span> infinite ease-in-out;</div><div class="line">  <span class="attribute">animation</span>: bouncedelay <span class="number">1.4s</span> infinite ease-in-out;</div><div class="line">  <span class="comment">/* Prevent first frame from flickering when animation starts */</span></div><div class="line">  <span class="attribute">-webkit-animation-fill-mode</span>: both;</div><div class="line">  <span class="attribute">animation-fill-mode</span>: both;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-class">.spinner</span> <span class="selector-class">.bounce1</span> &#123;</div><div class="line">  <span class="attribute">-webkit-animation-delay</span>: -<span class="number">0.32s</span>;</div><div class="line">  <span class="attribute">animation-delay</span>: -<span class="number">0.32s</span>;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-class">.spinner</span> <span class="selector-class">.bounce2</span> &#123;</div><div class="line">  <span class="attribute">-webkit-animation-delay</span>: -<span class="number">0.16s</span>;</div><div class="line">  <span class="attribute">animation-delay</span>: -<span class="number">0.16s</span>;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> bouncedelay &#123;</div><div class="line">  0%, 80%, 100% &#123; <span class="attribute">-webkit-transform</span>: <span class="built_in">scale</span>(0.0) &#125;</div><div class="line">  40% &#123; <span class="attribute">-webkit-transform</span>: <span class="built_in">scale</span>(1.0) &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">@<span class="keyword">keyframes</span> bouncedelay &#123;</div><div class="line">  0%, 80%, 100% &#123;</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(0.0);</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">scale</span>(0.0);</div><div class="line">  &#125; 40% &#123;</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(1.0);</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">scale</span>(1.0);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ImgPending.js</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImgPending</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	componentDidMount() &#123;</div><div class="line">		<span class="keyword">var</span> that = <span class="keyword">this</span></div><div class="line">		<span class="keyword">this</span>.loadImg(<span class="keyword">this</span>.props.src)</div><div class="line">			.then((pic) =&gt; &#123;</div><div class="line">				<span class="comment">// 加载成功</span></div><div class="line">				that.imgContent.appendChild(pic)</div><div class="line">			&#125;)</div><div class="line">			.catch((err) =&gt; &#123;</div><div class="line">				<span class="comment">// 加载失败</span></div><div class="line">				<span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'图片加载失败'</span>))</div><div class="line">			&#125;)</div><div class="line">			.then(() =&gt; &#123;</div><div class="line">				that.spinner.style.display = <span class="string">'none'</span></div><div class="line">			&#125;)</div><div class="line">	&#125;</div><div class="line">	loadImg(src) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>((resolve, reject) =&gt; &#123;</div><div class="line">			<span class="keyword">const</span> pic = <span class="keyword">new</span> Image()</div><div class="line">			pic.src = src</div><div class="line">			pic.style.width = <span class="string">'100%'</span></div><div class="line">			pic.onload = () &#123;</div><div class="line">				resolve(pic)</div><div class="line">			&#125;</div><div class="line">			pic.onerror = (err) &#123;</div><div class="line">				reject(err)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">	render() &#123;</div><div class="line">		<span class="keyword">const</span> &#123; src, width, height &#125; = <span class="keyword">this</span>.props</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			&lt;div style=&#123;&#123; width, height, border: '1px solid #EEE', position: 'relative' &#125;&#125;&gt;</div><div class="line">				&lt;div ref=&#123;(imgContent) =&gt; this.imgContent = imgContent&#125;&gt;&lt;/div&gt;</div><div class="line">				&lt;div</div><div class="line">					ref=&#123;(spinner) =&gt; this.spinner = spinner&#125;</div><div class="line">					style=&#123;&#123; position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' &#125;&#125;&gt;</div><div class="line">					&lt;div className='spinner'&gt;</div><div class="line">						&lt;div className='bounce1'&gt;&lt;/div&gt;</div><div class="line">						&lt;div className='bounce2'&gt;&lt;/div&gt;</div><div class="line">						&lt;div className='bounce3'&gt;&lt;/div&gt;</div><div class="line">					&lt;/div&gt;</div><div class="line">				&lt;/div&gt;</div><div class="line">			&lt;/div&gt;</div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里我们在 <code>componentDidMount</code> 触发的时候使用 <code>new Image()</code> 加载图片，因为图片资源加载是异步执行的，我们选择了 <code>Promise</code> 来处理这个异步操作。当然，这里不用 <code>Promise</code> 而直接用 <code>onload</code>，<code>onerror</code> 这两个回调函数也是可以的达到效果的，只不过用 <code>Promise</code> 代码会美观一点。</p>
+<p>因为 <code>new Image()</code> 在加载成功后，返回一个 <code>img Dom (&lt;img /&gt;)</code> 我们选择直接将这个 dom 元素 append 到 <code>&lt;div ref={(imgContent) =&gt; this.imgContent = imgContent}&gt;&lt;/div&gt;</code> 这个元素中。最后将 <code>spinner</code> 设为 <code>display: none</code>。</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ol>
+<li>上面的做法我们直接在 React.Component 里面添加了 Dom 节点，虽然在 <code>componentDidMount</code> 时操作，但这还是和大家对 react 用法的共识有出入，因为我们插入的 Dom 不能被 React 的 virtual dom 管理。其次，<code>new Image()</code> 这个实例对象会一直引用，也许会一直占有内存。</li>
+<li>接着上一个问题，其实我们是可以不操作 dom 而是用 <code>state</code> 去实现相同的目的。而我选择用上面的实现方法是因为我个人觉得既然使用了 <code>new Image()</code> 而这个方法返回了 <code>&lt;img /&gt;</code> 抱着能用就用，不要浪费的原则。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/23/React-js-实现-image-zoom-功能-part-1/" itemprop="url">
                   React.js 实现 image zoom 功能 part 1
                 </a>
@@ -601,7 +719,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
