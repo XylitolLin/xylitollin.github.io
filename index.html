@@ -228,6 +228,114 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/04/cloning-an-Object-and-Deep-clone-in-javascript/" itemprop="url">
+                  cloning an Object and Deep clone in javascript
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-04T17:07:20+08:00" content="2017-05-04">
+              2017-05-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近有一个面试，面试官问了一个问题：“ js 中怎么拷贝一个 Object ”。OK，我们都知道 Object 在 js 中是一个引用类型的存在。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	str: <span class="string">'str'</span>,</div><div class="line">	num: <span class="number">1</span>,</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> copy = obj</div><div class="line">copy.str = <span class="string">'change'</span></div><div class="line"><span class="built_in">console</span>.log(copy) <span class="comment">// &#123;str: 'change', num: 1&#125;</span></div><div class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;str: 'change', num: 1&#125;</span></div></pre></td></tr></table></figure>
+<p>嗯，因为 Object 是引用类型。变量 obj 和 copy 都只是指向 Object 的内存地址，所以修改 copy 的值，obj 也是指向修改后的 Object。那么显然我们不需要这种拷贝。在 es5 中，我们可以利用 <code>Object.assgin</code> 来实现拷贝：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	str: <span class="string">'str'</span>,</div><div class="line">	num: <span class="number">1</span>,</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj)</div><div class="line">copy.str = <span class="string">'change'</span></div><div class="line"><span class="built_in">console</span>.log(copy) <span class="comment">// &#123;str: 'change', num: 1&#125;</span></div><div class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;str: 'str', num: 1&#125;</span></div></pre></td></tr></table></figure>
+<p>一切看起来都这么完美。但是，如果 Object 中的 value 不止 Number, String, Boolean 这三种基础类型的值呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	str: <span class="string">'str'</span>,</div><div class="line">	num: <span class="number">1</span>,</div><div class="line">	o: &#123;</div><div class="line">		name: <span class="string">'me'</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, obj)</div><div class="line">copy.o.name = <span class="string">'change'</span></div><div class="line"><span class="built_in">console</span>.log(copy) <span class="comment">// &#123;str: 'str', num: 1, o: &#123;name: 'change'&#125;&#125;</span></div><div class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;str: 'str', num: 1, o: &#123;name: 'change'&#125;&#125;</span></div></pre></td></tr></table></figure>
+<p>oh no。看似完美的 <code>Object.assign</code> 没有办法处理这种情况，因为 <code>assign</code> 只能是复制 Object 的 value 的，如果 value 还是一个引用类型，<code>assign</code> 也只能复制这个 value 的引用值。</p>
+<p>我当时给出的答案是用循环迭代的方式把 source 每一个 value 赋给 target，而面试官觉得太麻烦了，给出的答案是：<code>JSON.parse(JSON.stringify(obj))</code>。嗯，说实话，我当时真的没有想起这个方式，觉得很有道理。但是面试完后，细想…</p>
+<p>其实，这个方法对于比较常用的对象拷贝是足够了。那么在深入探讨一下，在 javascript 中属于引用类型可不止 <code>{}</code> 和 <code>[]</code>，举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	date: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">'2017-05-04T16:00:00'</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj))</div><div class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">//&#123;date: Thu May 04 2017 16:00:00 GMT+0800 (CST)&#125;</span></div><div class="line"><span class="built_in">console</span>.log(copy) <span class="comment">//&#123;date: "2017-05-04T08:00:00.000Z"&#125;</span></div></pre></td></tr></table></figure>
+<p>显然，用 <code>JSON.parse(JSON.stringify(obj))</code> 拷贝出来的 object.date 的类型都不一样了。类似的还有：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	date: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">'2017-05-04T16:00:00'</span>), <span class="comment">// Date</span></div><div class="line">	dom: <span class="built_in">document</span>.createElement(<span class="string">"div"</span>),    <span class="comment">// DOM</span></div><div class="line">	func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'hi'</span> &#125;       <span class="comment">// Function</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于 DOM, Function 类型的 value，<code>JSON.parse(JSON.stringify(obj))</code> 根本没有办法。因为这个本来就超出了 <code>JSON.stringify</code> 的用法。那么，我们该怎么做呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!item) &#123; <span class="keyword">return</span> item; &#125; <span class="comment">// null, undefined values check</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> types = [ <span class="built_in">Number</span>, <span class="built_in">String</span>, <span class="built_in">Boolean</span> ], </div><div class="line">        result;</div><div class="line"></div><div class="line">    <span class="comment">// normalizing primitives if someone did new String('aaa'), or new Number('444');</span></div><div class="line">    types.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (item <span class="keyword">instanceof</span> type) &#123;</div><div class="line">            result = type( item );</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> result == <span class="string">"undefined"</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.toString.call( item ) === <span class="string">"[object Array]"</span>) &#123;</div><div class="line">            result = [];</div><div class="line">            item.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">child, index, array</span>) </span>&#123; </div><div class="line">                result[index] = clone( child );</div><div class="line">            &#125;);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> item == <span class="string">"object"</span>) &#123;</div><div class="line">            <span class="comment">// testing that this is DOM</span></div><div class="line">            <span class="keyword">if</span> (item.nodeType &amp;&amp; <span class="keyword">typeof</span> item.cloneNode == <span class="string">"function"</span>) &#123;</div><div class="line">                <span class="keyword">var</span> result = item.cloneNode( <span class="literal">true</span> );    </div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!item.prototype) &#123; <span class="comment">// check that this is a literal</span></div><div class="line">                <span class="keyword">if</span> (item <span class="keyword">instanceof</span> <span class="built_in">Date</span>) &#123;</div><div class="line">                    result = <span class="keyword">new</span> <span class="built_in">Date</span>(item);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="comment">// it is an object literal</span></div><div class="line">                    result = &#123;&#125;;</div><div class="line">                    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> item) &#123;</div><div class="line">                        result[i] = clone( item[i] );</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// depending what you would like here,</span></div><div class="line">                <span class="comment">// just keep the reference, or create new object</span></div><div class="line">                <span class="keyword">if</span> (<span class="literal">false</span> &amp;&amp; item.constructor) &#123;</div><div class="line">                    <span class="comment">// would not advice to do that, reason? Read below</span></div><div class="line">                    result = <span class="keyword">new</span> item.constructor();</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    result = item;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            result = item;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法是 <a href="http://stackoverflow.com/questions/4459928/how-to-deep-clone-in-javascript" target="_blank" rel="external">stackoverflow 上的答案</a>。思路大概就是将 target object 的每一个 key 对应的 value 迭代判断类型在进行赋值拷贝。有意思的是，他选择用 <code>item.prototype</code> 去判断 value 是 Object, Array 还是 Function。当然，这个没有做太多的浏览器兼容，类型的判断可以很多方法，不一定局限于这个答案。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/04/05/React-js-和-Promise-实现-image-pending/" itemprop="url">
                   React.js 和 Promise 实现 image pending
                 </a>
@@ -719,7 +827,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
